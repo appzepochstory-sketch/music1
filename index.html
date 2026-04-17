@@ -596,14 +596,18 @@ body{
   font-family:var(--f-serif);font-size:15px;line-height:2;color:var(--cream-warm);
   margin-bottom:14px;max-width:38em;
 }
-/* airinaの一言バイオ：ちょっとカジュアルに */
+/* アーティストバイオ：公式プロフィール風、Klee One で少し人間味を残す */
 .artist__bio{
-  font-family:"Klee One","Yusei Magic","Shippori Mincho",var(--f-serif) !important;
-  font-size:17px !important;line-height:2.1 !important;
-  color:var(--cream) !important;
-  margin:8px 0 28px !important;
+  font-family:"Klee One","Yusei Magic","Shippori Mincho",var(--f-serif);
+  font-size:15px;line-height:2;
+  color:var(--cream);
+  margin:8px 0 28px;
   letter-spacing:.02em;
+  max-width:38em;
 }
+.artist__bio p{margin:0 0 12px}
+.artist__bio p:last-child{margin-bottom:0}
+.artist__bio b{color:var(--amber-soft);font-weight:700;letter-spacing:.05em}
 
 /* SNS/Streamingアイコン */
 .streams{margin-top:42px}
@@ -923,10 +927,22 @@ body{
       <div class="artist__info" data-reveal>
         <div class="kanji">Singer Songwriter</div>
         <h3><em>airina</em></h3>
-        <p class="artist__bio">
-          沖縄 ⇨ 東京 / ｼﾝｶﾞｰｿﾝｸﾞﾗｲﾀｰ 🤖🫟<br>
-          アコギが好きです 🎸
-        </p>
+        <div class="artist__bio">
+          <p><b>aiRina</b> / ｱｲﾘﾅ</p>
+          <p>沖縄県出身。シンガーソングライター。</p>
+          <p>
+            沖縄に生まれ育ち、15歳でアコースティックギターを手にする。<br>
+            17歳より作詞作曲を開始し、自身の感情や風景を言葉と音に刻み込む。
+          </p>
+          <p>
+            アコースティックギターに魅了され、スラップ奏法やスラム奏法など
+            多彩な奏法を取り入れた弾き語りスタイルを確立。
+          </p>
+          <p>
+            ロックなサウンドと沖縄独自のリズム感を融合させ、
+            ギター1本とは思えない立体的で攻撃的なサウンドを生み出す。
+          </p>
+        </div>
 
         <div class="streams">
           <div class="streams__label">Listen & Follow</div>
@@ -949,6 +965,16 @@ body{
             <a class="stream" href="https://open.spotify.com/artist/0HditPPIRZWCVdah5APAhK?si=U6uPYQ2JQbmJmQd0gV_L9w" target="_blank" rel="noopener" aria-label="Spotify">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 12 12A12 12 0 0 0 12 0zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2-10.4-1.1a.75.75 0 1 1-.3-1.5c4.5-1 8.3-.6 11.4 1.3a.75.75 0 0 1 .3 1.05zm1.5-3.3a.94.94 0 0 1-1.3.3c-3.2-2-8.1-2.5-11.9-1.4a.94.94 0 1 1-.5-1.8c4.3-1.3 9.7-.7 13.4 1.6a.94.94 0 0 1 .3 1.3zm.1-3.4c-3.8-2.3-10.2-2.5-13.8-1.4a1.13 1.13 0 1 1-.7-2.1c4.2-1.3 11.3-1 15.7 1.6a1.13 1.13 0 1 1-1.2 1.9z"/></svg>
               <span class="stream__tip">Spotify</span>
+            </a>
+            <!-- Official Website -->
+            <a class="stream" href="https://www.airina.info/" target="_blank" rel="noopener" aria-label="Official Website">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M3 12h18"/>
+                <path d="M12 3a14 14 0 0 1 0 18"/>
+                <path d="M12 3a14 14 0 0 0 0 18"/>
+              </svg>
+              <span class="stream__tip">Website</span>
             </a>
           </div>
         </div>
