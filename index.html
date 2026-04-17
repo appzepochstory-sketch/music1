@@ -872,18 +872,15 @@ body{
     </div>
 
     <div class="player" data-reveal>
-      <!-- Vimeo埋め込み予定: data-vimeo に URL が入ったらiframeに差し替わる -->
-      <div class="player__placeholder" id="player-placeholder" data-vimeo="">
-        <div class="player__disc"></div>
-        <div class="player__playhint">
-          <small>Side A · 33⅓ rpm</small>
-          <span class="cta">Play the jacket</span>
-        </div>
-      </div>
-      <!-- iframe差し込みポイント:
-        <iframe src="https://player.vimeo.com/video/XXXXXXXXX" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-      -->
+      <iframe
+        src="https://player.vimeo.com/video/1184041778?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+        title="AMBER - aiRina"></iframe>
     </div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
 
     <div class="player__credits">
       <span>01 · Amber</span>
