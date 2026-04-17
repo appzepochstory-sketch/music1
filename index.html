@@ -251,8 +251,8 @@ body{
   filter:saturate(1.05) contrast(1.04);
   position:relative;z-index:2;
 }
-/* 画像がない時のフォールバック装飾（ジャケ風タイポのみ） */
-.hero__frame::before{
+/* 画像がない時のフォールバック装飾（ジャケ風タイポのみ・画像が入ると自動で隠れる） */
+.hero__frame.is-empty::before{
   content:"AMBER";
   position:absolute;top:18px;left:0;right:0;z-index:1;
   text-align:center;
@@ -261,7 +261,7 @@ body{
   color:var(--amber-deep);
   letter-spacing:.02em;line-height:1;
 }
-.hero__frame::after{
+.hero__frame.is-empty::after{
   content:"琥珀色の光 · VOL. 01";
   position:absolute;bottom:18px;left:0;right:0;z-index:1;
   text-align:center;
@@ -365,24 +365,27 @@ body{
   font-size:14px;letter-spacing:.25em;
   color:var(--amber-soft);margin-bottom:36px;
 }
-.mood__lead{
+/* 見出し「あの女性は、、、」— ストーリー導入 */
+.mood__heading{
   font-family:var(--f-display);
-  font-style:italic;font-weight:300;
-  font-size:clamp(30px,4.6vw,58px);
-  line-height:1.55;letter-spacing:-.005em;
+  font-weight:600;font-style:normal;
+  font-size:clamp(56px,9vw,136px);
+  line-height:.95;letter-spacing:-.02em;
   color:var(--cream);
-  margin-bottom:48px;
+  margin-bottom:68px;
+  text-shadow:0 0 40px rgba(232,168,103,.35);
 }
-.mood__lead b{
-  font-style:normal;font-weight:500;color:var(--amber-soft);
-  text-shadow:0 0 18px rgba(232,168,103,.4);
+.mood__heading em{
+  font-style:italic;font-weight:400;color:var(--amber-soft);
 }
-.mood__text{
+/* 見出しの下にそっと添える小さな文（ストーリーの引きこみ） */
+.mood__sub{
   font-family:var(--f-serif);
-  font-size:17px;line-height:2.3;color:var(--cream-warm);
-  max-width:28em;margin:0 auto 26px;
+  font-size:14px;line-height:2.1;color:var(--cream-warm);
+  max-width:24em;margin:0 auto 14px;
+  letter-spacing:.03em;
 }
-.mood__text em{color:var(--amber-soft);font-style:italic;font-weight:400}
+.mood__sub em{color:var(--amber-soft);font-style:italic;font-weight:500}
 .mood__divider{
   margin:64px auto 0;
   width:1px;height:64px;
@@ -792,11 +795,12 @@ body{
 
     <div class="hero__art" data-reveal>
       <span class="hero__tape"></span>
-      <div class="hero__frame">
+      <div class="hero__frame is-empty" id="hero-frame">
         <!-- 差し替え想定: assets/amber-jacket.png -->
         <img src="./assets/amber-jacket.png"
              alt="AMBER ジャケット：琥珀色の光に包まれる女性"
-             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(180deg,#8ea8a5 0%,#7a9794 100%)';">
+             onload="document.getElementById('hero-frame').classList.remove('is-empty')"
+             onerror="this.style.display='none'">
       </div>
       <div class="hero__stamp">
         Amber<br>Light<small>VOL. 01</small>
@@ -819,18 +823,18 @@ body{
   <div class="mood__inner">
     <div class="mood__small" data-reveal>— Amber Light</div>
 
-    <p class="mood__lead" data-reveal>
-      世の中に溶け込んでいるはずなのに、<br>
-      <b>ふと目が離せなくなる</b>、<br>
-      そんな琥珀色の光のような人。
-    </p>
+    <h2 class="mood__heading" data-reveal>
+      あの女性<em>は</em>、、、
+    </h2>
 
-    <p class="mood__text" data-reveal>
-      平日の夜、ふらっと立ち寄ったバーのカウンターで、<br>
-      グラスの向こう側で静かに揺れていた <em>あの光</em>。
+    <p class="mood__sub" data-reveal>
+      平日の夜、ふらっと立ち寄ったバーのカウンター。
     </p>
-    <p class="mood__text" data-reveal>
-      誰にも気づかれないように佇んでいるのに、<br>
+    <p class="mood__sub" data-reveal>
+      グラスの向こう側で、静かに揺れていた <em>琥珀色の光</em>。
+    </p>
+    <p class="mood__sub" data-reveal>
+      世の中に溶け込んでいるはずなのに、<br>
       一度視線がぶつかると、もう外せない。
     </p>
 
@@ -845,7 +849,7 @@ body{
 
     <div class="music__head" data-reveal>
       <h2 class="music__title">
-        <em>Listen</em><br>to the<br>Amber.
+        <em>Play</em><br>now.
       </h2>
       <p class="music__note">
         レコードのA面が回り出す瞬間。<br>
@@ -870,7 +874,7 @@ body{
     <div class="player__credits">
       <span>01 · Amber Light</span>
       <span>written & performed by airina</span>
-      <span>jacket art by komachan</span>
+      <span>jacket art by yuto</span>
     </div>
 
   </div>
@@ -952,7 +956,7 @@ body{
   <div class="wrap">
     <div class="note__paper" data-reveal>
 
-      <div class="note__label">from komachan</div>
+      <div class="note__label">from yuto</div>
       <h3 class="note__title">
         — ほんとは<em>思いつき</em>から<br>
         はじまった企画なんです。
@@ -970,15 +974,15 @@ body{
         <p>
           Epochstory といえば、ちょっとエモくて、チルで、女性のイラスト。
           その代名詞といえば、<b>"バーで見つけた美人さん"</b>。
-          その空気のまま、音が鳴る日がくるなんて、ね。
+          このイラストに合わせた曲が完成するなんて、感謝でしかない！
         </p>
         <p>
           手にとってくれるあなたへ。<br>
-          この1枚と、1曲が、夜の片隅をちょっとだけ照らせたら嬉しいです。
+          この1枚と、1曲で夜を楽しんでもらえると嬉しいです。
         </p>
       </div>
 
-      <span class="note__sign">— komachan</span>
+      <span class="note__sign">— yuto</span>
       <div style="clear:both"></div>
 
     </div>
@@ -991,7 +995,7 @@ body{
   <div class="wrap footer__grid">
     <div class="footer__brand">AM<em>B</em>ER — 琥珀色の光</div>
     <div class="footer__meta">
-      Jacket art: komachan · Vol.01 artist: airina · © 2026
+      Jacket art: yuto · Vol.01 artist: airina · © 2026
     </div>
   </div>
 </footer>
