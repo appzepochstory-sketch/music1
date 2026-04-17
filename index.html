@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>AMBER - 琥珀色の光</title>
+<meta name="description" content="CDジャケ写に曲を宿す、ミニCDケース風NFCキーホルダー企画「AMBER - 琥珀色の光」。" />
+<meta property="og:title" content="AMBER - 琥珀色の光" />
+<meta property="og:description" content="平日の夜、ふらっと入ったバーで目が離せなくなったあの光。" />
+<meta name="theme-color" content="#1a120b" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,900;1,9..144,400&family=Shippori+Mincho:wght@400;600;800&family=Inter:wght@400;500;700&family=Caveat:wght@400;600&family=Klee+One:wght@400;600&family=Yusei+Magic&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AMBER - 琥珀色の光 / design tokens
+   ============================================================ */
+:root{
+  --amber:        #d47a39;  /* 琥珀 */
+  --amber-deep:   #a54a1d;  /* 深琥珀（ロゴ赤の参考） */
+  --amber-soft:   #e8a867;  /* 灯り */
+  --dusty:        #8ea8a5;  /* ダスティブルーグリーン（ジャケ背景） */
+  --dusty-deep:   #5e7c79;
+  --cream:        #efe4d2;  /* 生成り */
+  --cream-warm:   #e8d9bd;
+  --ink:          #1a120b;  /* インク（ほぼ黒） */
+  --ink-soft:     #3a2418;  /* ダークブラウン */
+  --paper:        #0f0a06;  /* 深夜 */
+
+  --f-display: "Fraunces", "Shippori Mincho", serif;
+  --f-serif:   "Shippori Mincho", "Fraunces", serif;
+  --f-sans:    "Inter", "Helvetica Neue", "Hiragino Sans", sans-serif;
+  --f-hand:    "Caveat", "Klee One", "Yusei Magic", cursive;
+  --f-hand-jp: "Klee One", "Yusei Magic", "Shippori Mincho", cursive;
+
+  --ease-out: cubic-bezier(.22,.61,.36,1);
+  --ease-in-out: cubic-bezier(.76,0,.24,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{overflow-x:clip}
+body{
+  background:var(--paper);
+  color:var(--cream);
+  font-family:var(--f-sans);
+  font-size:15px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:.02em;
+  position:relative;
+  min-height:100vh;
+}
+
+/* フィルムグレイン */
+.grain{
+  position:fixed;inset:0;
+  pointer-events:none;z-index:9998;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.89  0 0 0 0 0.72  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity:.35;
+}
+/* ヴィネット */
+.vignette{
+  position:fixed;inset:0;
+  pointer-events:none;z-index:9997;
+  background:radial-gradient(130% 100% at 50% 50%, transparent 55%, rgba(0,0,0,.35) 100%);
+}
+
+/* ============================================================
+   共通 utility
+   ============================================================ */
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+.small-caps{
+  font-family:var(--f-sans);
+  font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--amber-soft);opacity:.85;
+}
+.jp-caps{
+  font-family:var(--f-sans);
+  font-size:11px;letter-spacing:.5em;
+  color:var(--amber-soft);opacity:.9;
+}
+.num{
+  font-family:var(--f-display);
+  font-style:italic;font-weight:300;
+  color:var(--amber);
+  opacity:.55;
+  font-size:13px;
+  letter-spacing:.15em;
+  margin-right:.8em;
+  vertical-align:baseline;
+}
+.rule{
+  width:1px;height:64px;
+  background:linear-gradient(180deg,transparent,var(--amber) 40%,var(--amber) 60%,transparent);
+  margin:0 auto;
+}
+
+/* scroll reveal */
+[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease-out), transform 1s var(--ease-out)}
+[data-reveal].on{opacity:1;transform:none}
+
+/* ============================================================
+   NAV（ヘッダーじゃない軽量ロゴ＆進行インジケーターのみ）
+   ============================================================ */
+.mark{
+  position:fixed;top:26px;left:32px;z-index:50;
+  font-family:var(--f-display);font-weight:900;
+  font-size:18px;letter-spacing:.2em;
+  color:var(--cream);
+  mix-blend-mode:difference;
+  text-decoration:none;
+}
+.mark em{color:var(--amber);font-style:normal}
+
+.progress{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:60;
+  background:transparent;
+}
+.progress__bar{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--amber-deep),var(--amber),var(--amber-soft));
+  transition:width .15s linear;
+}
+
+/* スクロール駆動のレコード：ページ全体でくるくる回る唯一のギミック */
+.vinyl-orb{
+  position:fixed;right:-120px;bottom:-120px;z-index:40;
+  width:360px;height:360px;pointer-events:none;
+  opacity:.85;
+  transform:translate3d(0,0,0) rotate(0deg);
+  will-change:transform;
+  transition:opacity .5s ease;
+}
+.vinyl-orb svg{width:100%;height:100%;display:block}
+@media (max-width:720px){
+  .vinyl-orb{width:220px;height:220px;right:-60px;bottom:-60px;opacity:.7}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  min-height:100svh;
+  padding:120px 0 80px;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+.hero__bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(70% 80% at 20% 30%, rgba(212,122,57,.22), transparent 60%),
+    radial-gradient(60% 60% at 80% 80%, rgba(142,168,165,.18), transparent 70%),
+    linear-gradient(180deg, #0e0907 0%, #1a120b 60%, #110b06 100%);
+}
+.hero__grid{
+  position:relative;z-index:2;
+  display:grid;gap:48px;align-items:center;
+  grid-template-columns: 1.05fr .95fr;
+}
+@media (max-width:900px){
+  .hero__grid{grid-template-columns:1fr;gap:40px}
+}
+
+/* キャッチコピー側 */
+.hero__copy{padding-right:20px}
+.hero__eyebrow{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:32px;
+}
+.hero__eyebrow .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--amber);
+  box-shadow:0 0 20px rgba(212,122,57,.8);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+.hero__title{
+  font-family:var(--f-display);
+  font-weight:900;font-style:normal;
+  font-size:clamp(44px,6.2vw,94px);
+  line-height:1;letter-spacing:-.02em;
+  color:var(--cream);
+  margin:0 0 18px -4px;
+  position:relative;
+}
+.hero__title em{
+  font-style:italic;font-weight:400;
+  color:var(--amber);
+  display:inline-block;
+  position:relative;
+}
+.hero__title em::after{
+  content:"";position:absolute;left:-4%;right:-4%;bottom:.12em;height:.14em;
+  background:var(--amber);opacity:.18;z-index:-1;border-radius:6px;
+}
+.hero__sub{
+  font-family:var(--f-serif);font-weight:400;
+  font-size:clamp(16px,1.8vw,20px);
+  line-height:1.9;
+  color:var(--cream-warm);
+  max-width:34em;
+  margin:28px 0 40px;
+}
+.hero__sub b{color:var(--amber-soft);font-weight:600}
+
+.hero__meta{
+  display:flex;flex-wrap:wrap;gap:24px 40px;
+  margin-top:36px;
+  border-top:1px solid rgba(239,228,210,.14);
+  padding-top:22px;
+}
+.hero__meta dt{
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--amber-soft);opacity:.8;margin-bottom:6px;
+}
+.hero__meta dd{
+  font-family:var(--f-display);font-weight:600;font-size:15px;
+  color:var(--cream);
+}
+
+/* ジャケ写側 */
+.hero__art{
+  position:relative;
+  aspect-ratio:1/1;
+  max-width:520px;margin:0 auto;
+  width:100%;
+}
+.hero__art::before{
+  /* 背景のソフトな琥珀の光 */
+  content:"";position:absolute;inset:-12%;
+  background:radial-gradient(50% 50% at 50% 45%, rgba(232,168,103,.45), transparent 70%);
+  filter:blur(30px);z-index:0;
+}
+.hero__frame{
+  position:relative;z-index:1;
+  width:100%;height:100%;
+  background:
+    radial-gradient(60% 50% at 52% 45%, rgba(212,122,57,.25), transparent 70%),
+    linear-gradient(180deg,#8ea8a5 0%,#7a9794 100%);
+  box-shadow:
+    0 40px 80px -20px rgba(0,0,0,.7),
+    0 0 0 1px rgba(239,228,210,.08);
+  overflow:hidden;
+}
+.hero__frame img{
+  width:100%;height:100%;display:block;
+  object-fit:cover;
+  filter:saturate(1.05) contrast(1.04);
+  position:relative;z-index:2;
+}
+/* 画像がない時のフォールバック装飾（ジャケ風タイポのみ） */
+.hero__frame::before{
+  content:"AMBER";
+  position:absolute;top:18px;left:0;right:0;z-index:1;
+  text-align:center;
+  font-family:var(--f-display);font-weight:900;
+  font-size:clamp(42px,6vw,84px);
+  color:var(--amber-deep);
+  letter-spacing:.02em;line-height:1;
+}
+.hero__frame::after{
+  content:"琥珀色の光 · VOL. 01";
+  position:absolute;bottom:18px;left:0;right:0;z-index:1;
+  text-align:center;
+  font-family:var(--f-display);font-style:italic;font-weight:400;
+  font-size:13px;color:var(--ink-soft);letter-spacing:.2em;
+}
+.hero__tape{
+  position:absolute;z-index:3;
+  width:140px;height:26px;
+  background:rgba(239,228,210,.45);
+  border:1px dashed rgba(26,18,11,.18);
+  backdrop-filter:blur(2px);
+  transform:rotate(-6deg);
+  top:-10px;left:-18px;
+  box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+.hero__stamp{
+  position:absolute;z-index:3;
+  right:-14px;bottom:-14px;
+  width:128px;height:128px;border-radius:50%;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%, var(--amber-soft), var(--amber-deep));
+  color:var(--cream);
+  font-family:var(--f-display);font-style:italic;font-weight:400;
+  font-size:13px;letter-spacing:.05em;text-align:center;line-height:1.25;
+  box-shadow:0 14px 30px -8px rgba(165,74,29,.6), inset 0 0 0 1px rgba(239,228,210,.3);
+  transform:rotate(-8deg);
+}
+.hero__stamp small{display:block;font-size:9px;letter-spacing:.3em;margin-top:4px;opacity:.9;font-family:var(--f-sans);font-style:normal}
+
+.hero__scroll{
+  position:absolute;z-index:2;
+  left:50%;bottom:24px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-size:10px;letter-spacing:.3em;color:var(--amber-soft);opacity:.8;
+  text-transform:uppercase;
+}
+.hero__scroll::after{
+  content:"";width:1px;height:44px;
+  background:linear-gradient(180deg,var(--amber),transparent);
+  animation:drop 2s ease-in-out infinite;
+}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}60%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============================================================
+   MOOD（淡い光でイラストの世界観を示す）
+   ============================================================ */
+.mood{
+  position:relative;
+  padding:180px 0 200px;
+  overflow:hidden;
+  isolation:isolate;
+}
+/* 淡いランプの光 */
+.mood__lamp{
+  position:absolute;z-index:0;
+  width:min(80vw,1000px);aspect-ratio:1/1;
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  background:
+    radial-gradient(35% 35% at 50% 50%, rgba(255,190,120,.32), rgba(255,160,80,.14) 45%, transparent 70%),
+    radial-gradient(50% 45% at 50% 55%, rgba(212,122,57,.14), transparent 80%);
+  filter:blur(12px);
+  animation:flicker 6s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes flicker{
+  0%{opacity:.85;transform:translate(-50%,-50%) scale(1)}
+  35%{opacity:1;transform:translate(-50%,-51%) scale(1.03)}
+  70%{opacity:.78;transform:translate(-49%,-50%) scale(.98)}
+  100%{opacity:.92;transform:translate(-50%,-50%) scale(1.01)}
+}
+/* 舞うホコリ/小さな光の粒 */
+.mood__dust{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mood__dust span{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  background:var(--amber-soft);box-shadow:0 0 8px rgba(232,168,103,.7);
+  animation:drift linear infinite;opacity:.6;
+}
+.mood__dust span:nth-child(1){left:10%;top:20%;animation-duration:14s;animation-delay:-2s}
+.mood__dust span:nth-child(2){left:30%;top:75%;animation-duration:18s;animation-delay:-5s;width:2px;height:2px}
+.mood__dust span:nth-child(3){left:55%;top:30%;animation-duration:22s;animation-delay:-9s}
+.mood__dust span:nth-child(4){left:75%;top:60%;animation-duration:16s;animation-delay:-1s;width:2px;height:2px}
+.mood__dust span:nth-child(5){left:88%;top:15%;animation-duration:20s;animation-delay:-7s}
+.mood__dust span:nth-child(6){left:20%;top:45%;animation-duration:24s;animation-delay:-12s;width:2px;height:2px}
+@keyframes drift{
+  0%{transform:translate(0,0);opacity:0}
+  10%{opacity:.7}
+  50%{transform:translate(30px,-60px);opacity:.9}
+  90%{opacity:.4}
+  100%{transform:translate(60px,-140px);opacity:0}
+}
+
+.mood__inner{
+  position:relative;z-index:2;
+  max-width:780px;margin:0 auto;
+  padding:0 32px;
+  text-align:center;
+}
+.mood__small{
+  font-family:var(--f-display);font-style:italic;font-weight:300;
+  font-size:14px;letter-spacing:.25em;
+  color:var(--amber-soft);margin-bottom:36px;
+}
+.mood__lead{
+  font-family:var(--f-display);
+  font-style:italic;font-weight:300;
+  font-size:clamp(30px,4.6vw,58px);
+  line-height:1.55;letter-spacing:-.005em;
+  color:var(--cream);
+  margin-bottom:48px;
+}
+.mood__lead b{
+  font-style:normal;font-weight:500;color:var(--amber-soft);
+  text-shadow:0 0 18px rgba(232,168,103,.4);
+}
+.mood__text{
+  font-family:var(--f-serif);
+  font-size:17px;line-height:2.3;color:var(--cream-warm);
+  max-width:28em;margin:0 auto 26px;
+}
+.mood__text em{color:var(--amber-soft);font-style:italic;font-weight:400}
+.mood__divider{
+  margin:64px auto 0;
+  width:1px;height:64px;
+  background:linear-gradient(180deg,var(--amber),transparent);
+  opacity:.6;
+}
+
+/* ============================================================
+   MUSIC（Vimeo埋め込み / スピンするジャケ風表示）
+   ============================================================ */
+.music{
+  position:relative;
+  padding:120px 0 140px;
+  background:linear-gradient(180deg, transparent 0%, rgba(212,122,57,.05) 40%, transparent 100%);
+}
+.music__head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+  flex-wrap:wrap;
+  margin-bottom:52px;
+}
+.music__title{
+  font-family:var(--f-display);font-weight:900;
+  font-size:clamp(40px,6.5vw,86px);
+  line-height:.95;letter-spacing:-.02em;
+  color:var(--cream);
+}
+.music__title em{font-style:italic;font-weight:400;color:var(--amber)}
+.music__note{
+  font-family:var(--f-serif);font-size:13px;color:var(--cream-warm);
+  max-width:320px;line-height:1.85;
+}
+
+.player{
+  position:relative;
+  aspect-ratio:16/9;
+  width:100%;
+  background:#0a0604;
+  box-shadow:
+    0 80px 120px -40px rgba(165,74,29,.35),
+    0 0 0 1px rgba(212,122,57,.2);
+  overflow:hidden;
+}
+.player iframe,
+.player__placeholder{
+  position:absolute;inset:0;width:100%;height:100%;
+}
+/* プレースホルダー（動画差し替え前の見た目） */
+.player__placeholder{
+  display:grid;place-items:center;
+  background:
+    radial-gradient(60% 80% at 50% 50%, rgba(212,122,57,.25), transparent 70%),
+    linear-gradient(135deg, #2a1810 0%, #110b06 100%);
+  cursor:pointer;
+}
+.player__disc{
+  width:58%;max-width:420px;aspect-ratio:1/1;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 11%, rgba(239,228,210,.06) 11.5%, rgba(239,228,210,.06) 12%, transparent 12.5%),
+    radial-gradient(circle at 50% 50%, transparent 14%, rgba(239,228,210,.04) 14.5%, rgba(239,228,210,.04) 15%, transparent 15.5%),
+    radial-gradient(circle at 50% 50%, transparent 18%, rgba(239,228,210,.04) 18.5%, rgba(239,228,210,.04) 19%, transparent 19.5%),
+    radial-gradient(circle at 50% 50%, transparent 25%, rgba(239,228,210,.03) 25.5%, rgba(239,228,210,.03) 26%, transparent 26.5%),
+    radial-gradient(circle at 50% 50%, transparent 33%, rgba(239,228,210,.03) 33.5%, rgba(239,228,210,.03) 34%, transparent 34.5%),
+    radial-gradient(circle at 50% 50%, transparent 42%, rgba(239,228,210,.03) 42.5%, rgba(239,228,210,.03) 43%, transparent 43.5%),
+    radial-gradient(circle at 35% 30%, #201510 0%, #0a0604 80%);
+  position:relative;
+  animation:spin 14s linear infinite;
+  box-shadow:inset 0 0 60px rgba(0,0,0,.5), 0 0 60px rgba(0,0,0,.6);
+}
+.player__disc::before{
+  content:"";
+  position:absolute;inset:30%;border-radius:50%;
+  background:var(--amber);
+  background-image:radial-gradient(circle at 35% 30%, var(--amber-soft), var(--amber-deep) 80%);
+  box-shadow:inset 0 0 0 2px rgba(239,228,210,.1);
+}
+.player__disc::after{
+  content:"";
+  position:absolute;top:50%;left:50%;width:12px;height:12px;border-radius:50%;
+  background:var(--paper);transform:translate(-50%,-50%);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.player__playhint{
+  position:absolute;bottom:24px;left:24px;right:24px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:16px;
+  pointer-events:none;
+}
+.player__playhint small{
+  font-size:10px;letter-spacing:.3em;color:var(--amber-soft);text-transform:uppercase;
+}
+.player__playhint .cta{
+  font-family:var(--f-display);font-style:italic;font-weight:400;
+  font-size:18px;color:var(--cream);display:flex;align-items:center;gap:10px;
+}
+.player__playhint .cta::before{
+  content:"";width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--amber);
+  background:rgba(212,122,57,.15);
+  display:inline-block;
+  position:relative;
+}
+.player__playhint .cta::after{
+  content:"";width:0;height:0;
+  border-left:10px solid var(--amber);
+  border-top:7px solid transparent;border-bottom:7px solid transparent;
+  margin-left:-24px;
+}
+
+.player__credits{
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  font-family:var(--f-sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber-soft);opacity:.85;
+  padding:18px 2px 0;
+  border-top:1px solid rgba(239,228,210,.1);
+  margin-top:16px;
+}
+
+/* ============================================================
+   ARTIST（歌っている人の紹介）
+   ============================================================ */
+.artist{
+  position:relative;
+  padding:140px 0 100px;
+}
+.artist__index{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid rgba(239,228,210,.14);
+  padding-bottom:20px;margin-bottom:68px;
+}
+.artist__index small{font-size:10px;letter-spacing:.3em;color:var(--amber-soft);text-transform:uppercase}
+.artist__index em{font-family:var(--f-display);font-style:italic;color:var(--cream);opacity:.5;font-weight:300;font-size:14px}
+
+.artist__card{
+  display:grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap:60px;align-items:center;
+}
+@media (max-width:860px){.artist__card{grid-template-columns:1fr;gap:36px}}
+
+.artist__portrait{
+  position:relative;aspect-ratio:3/4;
+  background:
+    radial-gradient(80% 60% at 50% 40%, rgba(232,168,103,.25), transparent 70%),
+    linear-gradient(180deg, #231914 0%, #0e0907 100%);
+  overflow:hidden;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.7);
+}
+.artist__portrait::before{
+  content:"airina";
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-4deg);
+  font-family:var(--f-display);font-style:italic;font-weight:300;
+  font-size:clamp(44px,8vw,120px);
+  color:var(--amber);opacity:.28;
+  letter-spacing:-.01em;pointer-events:none;white-space:nowrap;
+}
+.artist__portrait img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  mix-blend-mode:normal;
+}
+.artist__badge{
+  position:absolute;top:20px;left:20px;z-index:3;
+  padding:6px 12px;
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+  background:var(--amber);color:var(--ink);
+  font-weight:600;
+}
+.artist__tag{
+  position:absolute;bottom:20px;right:20px;z-index:3;
+  font-family:var(--f-display);font-style:italic;font-weight:300;
+  font-size:15px;color:var(--cream);opacity:.75;letter-spacing:.1em;
+}
+
+.artist__info .kanji{
+  font-family:var(--f-sans);font-size:11px;letter-spacing:.4em;color:var(--amber);
+  margin-bottom:18px;
+}
+.artist__info h3{
+  font-family:var(--f-display);font-weight:900;font-style:normal;
+  font-size:clamp(48px,7vw,96px);
+  line-height:.95;letter-spacing:-.02em;
+  color:var(--cream);margin-bottom:10px;
+}
+.artist__info h3 em{font-style:italic;font-weight:300;color:var(--amber)}
+.artist__info .role{
+  font-family:var(--f-display);font-style:italic;font-weight:400;font-size:16px;
+  color:var(--amber-soft);margin-bottom:28px;letter-spacing:.08em;
+}
+.artist__info p{
+  font-family:var(--f-serif);font-size:15px;line-height:2;color:var(--cream-warm);
+  margin-bottom:14px;max-width:38em;
+}
+
+/* SNS/Streamingアイコン */
+.streams{margin-top:42px}
+.streams__label{
+  font-size:10px;letter-spacing:.32em;color:var(--amber-soft);text-transform:uppercase;
+  margin-bottom:18px;display:flex;align-items:center;gap:12px;
+}
+.streams__label::after{content:"";flex:1;height:1px;background:rgba(239,228,210,.14)}
+.streams__list{
+  display:flex;gap:14px;flex-wrap:wrap;
+}
+.stream{
+  --size:56px;
+  position:relative;
+  width:var(--size);height:var(--size);
+  display:grid;place-items:center;
+  border-radius:50%;
+  background:rgba(239,228,210,.04);
+  border:1px solid rgba(239,228,210,.14);
+  color:var(--cream);
+  text-decoration:none;
+  transition:transform .4s var(--ease-out), background .4s ease, border-color .4s ease, color .4s ease;
+  overflow:hidden;
+}
+.stream svg{width:22px;height:22px;position:relative;z-index:2;transition:transform .4s var(--ease-out)}
+.stream::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--amber-soft), var(--amber-deep));
+  transform:scale(0);transition:transform .55s var(--ease-out);
+}
+.stream:hover{transform:translateY(-4px);color:var(--ink);border-color:transparent}
+.stream:hover::before{transform:scale(1)}
+.stream:hover svg{transform:scale(1.1)}
+.stream__tip{
+  position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-4px);
+  font-size:10px;letter-spacing:.25em;text-transform:uppercase;
+  white-space:nowrap;color:var(--amber-soft);
+  opacity:0;pointer-events:none;transition:opacity .3s ease, transform .3s ease;
+}
+.stream:hover .stream__tip{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ============================================================
+   NOTE（製作者の手書き感想・プライベートな一言）
+   ============================================================ */
+.note{
+  position:relative;
+  padding:140px 0 120px;
+  overflow:hidden;
+}
+.note__paper{
+  position:relative;
+  max-width:780px;margin:0 auto;
+  padding:64px 56px 56px;
+  background:
+    radial-gradient(80% 60% at 30% 20%, rgba(255,220,170,.06), transparent 60%),
+    linear-gradient(180deg, rgba(239,228,210,.04) 0%, rgba(239,228,210,.02) 100%);
+  border:1px solid rgba(239,228,210,.1);
+  box-shadow:
+    0 40px 80px -30px rgba(0,0,0,.6),
+    inset 0 0 0 1px rgba(239,228,210,.03);
+  transform:rotate(-.5deg);
+}
+.note__paper::before{
+  /* 左上にあしらう琥珀色の水滴ステイン */
+  content:"";position:absolute;top:-28px;left:-28px;
+  width:86px;height:86px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, rgba(232,168,103,.6), rgba(212,122,57,.15) 60%, transparent 80%);
+  filter:blur(6px);
+  pointer-events:none;
+}
+.note__label{
+  font-family:var(--f-hand);
+  font-size:22px;letter-spacing:.02em;
+  color:var(--amber-soft);
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:12px;
+}
+.note__label::before{
+  content:"";width:28px;height:1px;background:var(--amber-soft);opacity:.6;
+}
+.note__title{
+  font-family:var(--f-hand);
+  font-weight:600;
+  font-size:clamp(34px,4.6vw,52px);
+  line-height:1.25;color:var(--cream);
+  margin-bottom:28px;
+  letter-spacing:.01em;
+}
+.note__title em{
+  color:var(--amber-soft);font-style:italic;font-weight:400;
+}
+.note__body{
+  font-family:var(--f-hand-jp);
+  font-size:clamp(17px,1.6vw,20px);
+  line-height:2.1;letter-spacing:.02em;
+  color:var(--cream);
+}
+.note__body p{margin-bottom:18px}
+.note__body p:last-child{margin-bottom:0}
+.note__body em{color:var(--amber-soft);font-style:normal;font-weight:600}
+.note__body b{color:var(--amber);font-weight:600}
+.note__sign{
+  margin-top:40px;
+  text-align:right;
+  font-family:var(--f-hand);
+  font-size:28px;
+  color:var(--amber);
+  letter-spacing:.02em;
+  transform:rotate(-2deg);
+  display:inline-block;float:right;
+}
+/* 淡い下線アクセント */
+.note__hl{
+  background:linear-gradient(to bottom, transparent 62%, rgba(232,168,103,.28) 62%, rgba(232,168,103,.28) 88%, transparent 88%);
+  padding:0 2px;
+}
+
+.footer{
+  padding:60px 0 80px;
+  border-top:1px solid rgba(239,228,210,.1);
+  color:var(--cream);
+}
+.footer__grid{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;
+  align-items:center;
+}
+.footer__brand{
+  font-family:var(--f-display);font-weight:900;font-size:18px;letter-spacing:.2em;
+}
+.footer__brand em{color:var(--amber);font-style:normal}
+.footer__meta{
+  font-size:11px;letter-spacing:.2em;color:var(--cream-warm);opacity:.7;
+  text-transform:uppercase;
+}
+
+/* ============================================================
+   SP最適化
+   ============================================================ */
+@media (max-width:720px){
+  .wrap{padding:0 22px}
+  .mark{top:18px;left:22px;font-size:14px}
+  .hero{padding:110px 0 90px}
+  .hero__copy{padding:0}
+  .hero__scroll{display:none}
+  .mood{padding:120px 0 140px}
+  .mood__inner{padding:0 22px}
+  .music{padding:80px 0 100px}
+  .artist{padding:90px 0 60px}
+  .note{padding:100px 0 80px}
+  .note__paper{padding:48px 28px 40px}
+}
+</style>
+</head>
+<body>
+
+<!-- overlays -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- progress bar -->
+<div class="progress"><div class="progress__bar" id="bar"></div></div>
+
+<!-- logo -->
+<a href="#" class="mark">AM<em>B</em>ER</a>
+
+<!-- single gimmick: scroll-driven spinning vinyl in the corner -->
+<div class="vinyl-orb" id="orb" aria-hidden="true">
+  <svg viewBox="0 0 200 200">
+    <defs>
+      <radialGradient id="disc" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#2a1a10"/>
+        <stop offset="100%" stop-color="#0a0604"/>
+      </radialGradient>
+      <radialGradient id="label" cx="40%" cy="35%" r="60%">
+        <stop offset="0%" stop-color="#e8a867"/>
+        <stop offset="100%" stop-color="#a54a1d"/>
+      </radialGradient>
+    </defs>
+    <circle cx="100" cy="100" r="98" fill="url(#disc)"/>
+    <g stroke="rgba(239,228,210,.08)" fill="none">
+      <circle cx="100" cy="100" r="92"/>
+      <circle cx="100" cy="100" r="84"/>
+      <circle cx="100" cy="100" r="76"/>
+      <circle cx="100" cy="100" r="68"/>
+      <circle cx="100" cy="100" r="60"/>
+      <circle cx="100" cy="100" r="52"/>
+    </g>
+    <circle cx="100" cy="100" r="34" fill="url(#label)"/>
+    <text x="100" y="96" text-anchor="middle" font-family="Fraunces,serif" font-style="italic" font-size="11" fill="#efe4d2">AMBER</text>
+    <text x="100" y="110" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" letter-spacing="2" fill="#efe4d2" opacity=".8">SIDE A · 33⅓</text>
+    <circle cx="100" cy="100" r="3" fill="#0f0a06"/>
+  </svg>
+</div>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="wrap hero__grid">
+
+    <div class="hero__copy" data-reveal>
+      <div class="hero__eyebrow">
+        <span class="dot"></span>
+        <span class="small-caps">A Jacket × A Song — Vol. 01</span>
+      </div>
+
+      <h1 class="hero__title">
+        <em>琥珀</em>色の<br>光に、<br>耳をすます。
+      </h1>
+
+      <p class="hero__sub">
+        ひとつの絵に、ひとつの曲が宿る。<br>
+        <b>１枚のイラストから始まるMusic project。</b>
+      </p>
+    </div>
+
+    <div class="hero__art" data-reveal>
+      <span class="hero__tape"></span>
+      <div class="hero__frame">
+        <!-- 差し替え想定: assets/amber-jacket.png -->
+        <img src="./assets/amber-jacket.png"
+             alt="AMBER ジャケット：琥珀色の光に包まれる女性"
+             onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(180deg,#8ea8a5 0%,#7a9794 100%)';">
+      </div>
+      <div class="hero__stamp">
+        Amber<br>Light<small>VOL. 01</small>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hero__scroll">scroll to listen</div>
+</section>
+
+
+<!-- ============================ MOOD（淡い光で世界観を灯す） ============================ -->
+<section class="mood" id="mood">
+  <div class="mood__lamp" aria-hidden="true"></div>
+  <div class="mood__dust" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="mood__inner">
+    <div class="mood__small" data-reveal>— Amber Light</div>
+
+    <p class="mood__lead" data-reveal>
+      世の中に溶け込んでいるはずなのに、<br>
+      <b>ふと目が離せなくなる</b>、<br>
+      そんな琥珀色の光のような人。
+    </p>
+
+    <p class="mood__text" data-reveal>
+      平日の夜、ふらっと立ち寄ったバーのカウンターで、<br>
+      グラスの向こう側で静かに揺れていた <em>あの光</em>。
+    </p>
+    <p class="mood__text" data-reveal>
+      誰にも気づかれないように佇んでいるのに、<br>
+      一度視線がぶつかると、もう外せない。
+    </p>
+
+    <div class="mood__divider" data-reveal></div>
+  </div>
+</section>
+
+
+<!-- ============================ MUSIC ============================ -->
+<section class="music" id="music">
+  <div class="wrap">
+
+    <div class="music__head" data-reveal>
+      <h2 class="music__title">
+        <em>Listen</em><br>to the<br>Amber.
+      </h2>
+      <p class="music__note">
+        レコードのA面が回り出す瞬間。<br>
+        ジャケットの中に閉じ込めた光が、音になって溶けていく。
+      </p>
+    </div>
+
+    <div class="player" data-reveal>
+      <!-- Vimeo埋め込み予定: data-vimeo に URL が入ったらiframeに差し替わる -->
+      <div class="player__placeholder" id="player-placeholder" data-vimeo="">
+        <div class="player__disc"></div>
+        <div class="player__playhint">
+          <small>Side A · 33⅓ rpm</small>
+          <span class="cta">Play the jacket</span>
+        </div>
+      </div>
+      <!-- iframe差し込みポイント:
+        <iframe src="https://player.vimeo.com/video/XXXXXXXXX" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      -->
+    </div>
+
+    <div class="player__credits">
+      <span>01 · Amber Light</span>
+      <span>written & performed by airina</span>
+      <span>jacket art by komachan</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================ ARTIST ============================ -->
+<section class="artist" id="artist">
+  <div class="wrap">
+
+    <div class="artist__index" data-reveal>
+      <small>Artist</small>
+      <em>01</em>
+    </div>
+
+    <div class="artist__card">
+
+      <div class="artist__portrait" data-reveal>
+        <span class="artist__badge">Vol. 01</span>
+        <!-- 差し替え想定: assets/airina.jpg -->
+        <img src="./assets/airina.jpg" alt="airina portrait"
+             onerror="this.style.display='none'">
+        <span class="artist__tag">— singer songwriter</span>
+      </div>
+
+      <div class="artist__info" data-reveal>
+        <div class="kanji">Singer Songwriter</div>
+        <h3><em>airina</em></h3>
+        <div class="role">vocal & songwriting</div>
+        <p>
+          夜に似合う、やわらかくて芯のある歌声。
+          誰かの記憶の片隅にそっと置いていくような、
+          物語のある楽曲を紡ぐシンガーソングライター。
+        </p>
+
+        <div class="streams">
+          <div class="streams__label">Listen & Follow</div>
+          <div class="streams__list">
+            <!-- YouTube -->
+            <a class="stream" href="https://youtube.com/@airina_ssw" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
+              <span class="stream__tip">YouTube</span>
+            </a>
+            <!-- Instagram -->
+            <a class="stream" href="https://www.instagram.com/airina_ssw" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/>
+              </svg>
+              <span class="stream__tip">Instagram</span>
+            </a>
+            <!-- Spotify -->
+            <a class="stream" href="#" target="_blank" rel="noopener" aria-label="Spotify (準備中)">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 12 12A12 12 0 0 0 12 0zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2-10.4-1.1a.75.75 0 1 1-.3-1.5c4.5-1 8.3-.6 11.4 1.3a.75.75 0 0 1 .3 1.05zm1.5-3.3a.94.94 0 0 1-1.3.3c-3.2-2-8.1-2.5-11.9-1.4a.94.94 0 1 1-.5-1.8c4.3-1.3 9.7-.7 13.4 1.6a.94.94 0 0 1 .3 1.3zm.1-3.4c-3.8-2.3-10.2-2.5-13.8-1.4a1.13 1.13 0 1 1-.7-2.1c4.2-1.3 11.3-1 15.7 1.6a1.13 1.13 0 1 1-1.2 1.9z"/></svg>
+              <span class="stream__tip">Spotify</span>
+            </a>
+            <!-- Apple Music -->
+            <a class="stream" href="#" target="_blank" rel="noopener" aria-label="Apple Music (準備中)">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm-3.2 13.7c-.5.7-1.3 1-2 .9a2.3 2.3 0 0 1-2-2.2c0-1.5 1-2.4 2.3-2.6.3-.05.6-.04.9.02V7a.8.8 0 0 1 .7-.8l3.4-.7a.8.8 0 0 1 .9.8v7.9c0 1.3-1 2.3-2.4 2.5a2.2 2.2 0 0 1-2-2.2c0-1.4 1-2.4 2.3-2.6.3-.05.6-.04.9.02V8.5l-2.8.6v6.2c0 .1-.1.3-.2.4z"/></svg>
+              <span class="stream__tip">Apple Music</span>
+            </a>
+            <!-- X / Twitter -->
+            <a class="stream" href="#" target="_blank" rel="noopener" aria-label="X (準備中)">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.52 7.46L22 22h-6.86l-4.78-6.25L4.8 22H2l7-8.01L1.73 2h7.02l4.33 5.73L18.244 2zm-2.4 18h1.9L7.24 4H5.24l10.6 16z"/></svg>
+              <span class="stream__tip">X</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ NOTE（製作者の手書き感想） ============================ -->
+<section class="note" id="note">
+  <div class="wrap">
+    <div class="note__paper" data-reveal>
+
+      <div class="note__label">from komachan</div>
+      <h3 class="note__title">
+        — ほんとは<em>思いつき</em>から<br>
+        はじまった企画なんです。
+      </h3>
+
+      <div class="note__body">
+        <p>
+          正直、<span class="note__hl">販売までたどり着ける</span>なんて思ってなかった。
+          ふと湧いた「こんなのあったら楽しいかも」から、気づけばここまで来てました。
+        </p>
+        <p>
+          自分の描いたたった1枚のイラストを、じっくり眺めて、音に変えてくれる人が、
+          <em>なんと5名も</em>。それだけで、わたしにとっては奇跡みたいな話。
+        </p>
+        <p>
+          Epochstory といえば、ちょっとエモくて、チルで、女性のイラスト。
+          その代名詞といえば、<b>"バーで見つけた美人さん"</b>。
+          その空気のまま、音が鳴る日がくるなんて、ね。
+        </p>
+        <p>
+          手にとってくれるあなたへ。<br>
+          この1枚と、1曲が、夜の片隅をちょっとだけ照らせたら嬉しいです。
+        </p>
+      </div>
+
+      <span class="note__sign">— komachan</span>
+      <div style="clear:both"></div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">AM<em>B</em>ER — 琥珀色の光</div>
+    <div class="footer__meta">
+      Jacket art: komachan · Vol.01 artist: airina · © 2026
+    </div>
+  </div>
+</footer>
+
+
+<script>
+/* ============================================================
+   Script — 軽量（<script>だけでギミック統括）
+   ============================================================ */
+
+/* 1. スクロール駆動レコード：進捗で回転量を増やす */
+(function(){
+  var orb = document.getElementById('orb');
+  var bar = document.getElementById('bar');
+  if(!orb || !bar) return;
+
+  function onScroll(){
+    var h = document.documentElement;
+    var max = (h.scrollHeight - h.clientHeight) || 1;
+    var p = Math.min(1, Math.max(0, h.scrollTop / max));
+    orb.style.transform = 'rotate(' + (p * 1080) + 'deg)';
+    bar.style.width = (p * 100) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+
+/* 2. reveal on scroll */
+(function(){
+  var els = document.querySelectorAll('[data-reveal]');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(e){e.classList.add('on')});
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+
+/* 3. Vimeo遅延差し替え：data-vimeo にURLが入ったらクリックで読み込み */
+(function(){
+  var p = document.getElementById('player-placeholder');
+  if(!p) return;
+  p.addEventListener('click', function(){
+    var url = p.getAttribute('data-vimeo');
+    if(!url) return;
+    var ifr = document.createElement('iframe');
+    ifr.src = url + (url.indexOf('?')>-1?'&':'?') + 'autoplay=1';
+    ifr.setAttribute('allow','autoplay; fullscreen; picture-in-picture');
+    ifr.setAttribute('allowfullscreen','');
+    ifr.style.position='absolute';ifr.style.inset='0';ifr.style.width='100%';ifr.style.height='100%';ifr.style.border='0';
+    p.replaceWith(ifr);
+  });
+})();
+
+/* 4. 微細な視差：マウスに反応するヒーロー */
+(function(){
+  var art = document.querySelector('.hero__art');
+  if(!art) return;
+  var hero = document.querySelector('.hero');
+  hero.addEventListener('mousemove', function(e){
+    var r = hero.getBoundingClientRect();
+    var x = ((e.clientX - r.left) / r.width - .5) * 10;
+    var y = ((e.clientY - r.top) / r.height - .5) * 10;
+    art.style.transform = 'translate3d(' + (-x) + 'px,' + (-y) + 'px,0)';
+  });
+  hero.addEventListener('mouseleave', function(){
+    art.style.transform = '';
+  });
+})();
+</script>
+</body>
+</html>
